@@ -1,0 +1,22 @@
+{
+    "name": "favpanama",
+    "version": "1.0.0",
+    "description": "FavPanama twitter app",
+    "author": "Yizack Rangel",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Yizack/favpanama.git"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Yizack/favpanama/issues"
+    },
+    "homepage": "https://github.com/Yizack/favpanama",
+    "dependencies": {
+        "twit": "^2.2.11"
+    }
+}
