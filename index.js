@@ -18,7 +18,12 @@ var ban = [
     "ckan",
     "cazatormentaspa",
     "VOSTpanama",
-    "ventaszonalibre"
+    "ventaszonalibre",
+    "gruporgh",
+    "suseguroaqui",
+    "ptycodelca",
+    "towncenter_cde",
+    "aereobarato"
 ];
 
 for(let i = 0; i < ban.length; i++){
