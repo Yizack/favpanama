@@ -23,7 +23,8 @@ var ban = [
     "suseguroaqui",
     "ptycodelca",
     "towncenter_cde",
-    "aereobarato"
+    "aereobarato",
+    "Anspacks23"
 ];
 
 for(let i = 0; i < ban.length; i++){
