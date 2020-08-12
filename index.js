@@ -8,10 +8,10 @@ const config = {
     "access_token_secret": process.env.access_token_secret
 }
 
-var Twitter = new Twit(config);
+let Twitter = new Twit(config);
 
 // Lista de cuentas que no deseo leer
-var ban = [
+let ban = [
     "ExpoNoticia",
     "SOS_PTY",
     "tedyblood",
@@ -24,88 +24,85 @@ var ban = [
     "ptycodelca",
     "towncenter_cde",
     "aereobarato",
-    "Anspacks23"
+    "Anspacks23",
+    "ElPuebloPty",
+    "andrades_jc",
+    "Pali_Mexico"
 ];
 
-for(let i = 0; i < ban.length; i++){
-    ban[i] = "-from:" + ban[i]
+for (let i = 0; i < ban.length; i++) {
+    ban[i] = "-from:" + ban[i];
 }
-
+  
 const minuto = 0;
-var datetime = new Date();
-console.log(datetime.getHours() + ":" + (datetime.getMinutes() < 10 ? "0" : "") + datetime.getMinutes() + ":" + datetime.getMilliseconds());
-var timer = new intervalo(60000, tweet);
+let datetime = new Date();
+console.log("Favpanama: Listo");
+  
+let timer = new intervalo(60000, tweet);
 timer.run();
-
+  
 function tweet() {
-    var datetime = new Date();
-    if(minuto == datetime.getMinutes()){
-        busqueda();
-        console.log(datetime.getHours() + ":" + (datetime.getMinutes() < 10 ? "0" : "") + datetime.getMinutes() + ":" + datetime.getMilliseconds());
+    let datetime = new Date();
+    if (minuto == datetime.getMinutes()) {
+      busqueda();
     }
 }
-
-function busqueda(){
-    var parametros = {
-        q: '#Panama' + " " + ban.join(" "),
-        result_type: 'recent',
-        lang: 'es'
-    }
-
-    Twitter.get('search/tweets', parametros, function(err, data) {
+  
+function busqueda() {
+    let parametros = {
+        q: "#Panama" + " " + ban.join(" "),
+        result_type: "recent",
+        lang: "es"
+    };
+  
+    Twitter.get("search/tweets", parametros, function(err, data) {
         if (!err) {
-            var tweetID = data.statuses[0].id_str;
+            let tweetID = data.statuses[0].id_str;
             // RT
             retweet(tweetID);
             // FAV
             fav(tweetID);
-        }
-        else 
-            console.error(err.message);
+        } else console.error(err.message);
     });
 }
 
-function retweet(tweetID){
-    Twitter.post('statuses/retweet/:id', {id: tweetID}, function(err, response){
-        if (response)
-            console.log('Retweeted!');
-        if (err)
-            console.error(err.message);
+function retweet(tweetID) {
+    Twitter.post("statuses/retweet/:id", { id: tweetID }, function(err, response) {
+        if (response) console.log("Retweeted!");
+        if (err) console.error(err.message);
     });
 }
 
-function fav(tweetID){
-    Twitter.post('favorites/create', {id: tweetID}, function(err, response){
-        if(err)
-            console.error(err.message);
-        else
-            console.log('Favorited!');
+function fav(tweetID) {
+    Twitter.post("favorites/create", { id: tweetID }, function(err, response) {
+        if (err) console.error(err.message);
+        else console.log("Favorited!");
     });
 }
-
+  
 // Accurate Javascript setInterval replacement
 // Función por manast en https://gist.github.com/manast/1185904
-function intervalo(duration, fn){
-    this.baseline = undefined
+function intervalo(duration, fn) {
+    this.baseline = undefined;
 
-    this.run = function(){
-        if(this.baseline === undefined){
-            this.baseline = new Date().getTime()
+    this.run = function() {
+        if (this.baseline === undefined) {
+            this.baseline = new Date().getTime();
         }
-        fn()
-        var end = new Date().getTime()
-        this.baseline += duration
-        var nextTick = duration - (end - this.baseline)
-        if(nextTick<0){
-            nextTick = 0
+        fn();
+        let end = new Date().getTime();
+        this.baseline += duration;
+        let nextTick = duration - (end - this.baseline);
+        if (nextTick < 0) {
+            nextTick = 0;
         }
-        (function(i){
-            i.timer = setTimeout(function(){
-                i.run(end)
-            }, nextTick)
-        }(this))
-    }
-    this.stop = function(){
-        clearTimeout(this.timer)
-    }
+        (function(i) {
+            i.timer = setTimeout(function() {
+                i.run(end);
+            }, nextTick);
+        })(this);
+    };
+    this.stop = function() {
+        clearTimeout(this.timer);
+    };
 }
